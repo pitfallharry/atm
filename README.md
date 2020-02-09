@@ -7,10 +7,10 @@ In [1]: from atm import Stop
 
 In [2]: s = Stop(12125)
 
-In [3]: s.description()
+In [3]: s.description()<br>
 Fermata 12125 (P.za Emilia) | 2020-02-09 22:25:47.084090
 
-In [4]: s.waitmessage()
+In [4]: s.waitmessage()<br>
 La linea 27 (V.le Ungheria - P.zza Fontana) arriverà tra 13 min<br>
 La linea 73 (Aeroporto Linate - Duomo M1 M3) arriverà tra 3 min<br>
 La linea N27 (NOTTURNA Viale Ungheria - Duomo M1 M3) arriverà tra ven - sab<br>
@@ -19,10 +19,10 @@ In [5]: from atm import Line
 
 In [6]: l = Line(73)
 
-In [7]: l.description()
+In [7]: l.description()<br>
 Linea Bus 73 Aeroporto Linate - Duomo M1 M3
 
-In [8]: l.path()
+In [8]: l.path()<br>
 Linea Bus 73 Aeroporto Linate - Duomo M1 M3
 
 12926 (Aeroporto di Linate  Segrate)<br>
