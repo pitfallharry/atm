@@ -5,15 +5,23 @@ Initial Version
 
 In [1]: from atm import Stop
 
-In [2]: s = Stop(12125)
+In [2]: s = Stop(11161)
 
 In [3]: s.description()<br>
-Fermata 12125 (P.za Emilia) | 2020-02-09 22:25:47.084090
+Fermata 11161 (Alzaia Nav. Pavese, 60) | 2020-02-10 23:04:32.617598
 
 In [4]: s.waitmessage()<br>
-La linea 27 (V.le Ungheria - P.zza Fontana) arriverà tra 13 min<br>
-La linea 73 (Aeroporto Linate - Duomo M1 M3) arriverà tra 3 min<br>
-La linea N27 (NOTTURNA Viale Ungheria - Duomo M1 M3) arriverà tra ven - sab<br>
+<pre>
+11161 - Alzaia Nav. Pavese, 60
++---------+------------------------------+----------+
+|   Linea | Descrizione                  | Attesa   |
++=========+==============================+==========+
+|      59 | P.ta Lodovica - Famagosta M2 | no serv. |
++---------+------------------------------+----------+
+|      71 | Famagosta M2 - Romolo M2     | 5 min    |
++---------+------------------------------+----------+
+ - 2020-02-10 23:04:32.617598 - 
+</pre>
 
 In [5]: from atm import Line
 
