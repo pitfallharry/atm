@@ -107,3 +107,10 @@ Bus 73 Aeroporto Linate - Duomo M1 M3
 </tbody>
 </table>
 </pre>
+
+In [14]: s1 = Stop(12402)                                                                                                
+
+In [15]: s2 = Stop(12400)                                                                                                
+
+In [16]: distance(s1,s2)                                                                                                 
+Out[6]: 0.1354349258943788
