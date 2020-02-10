@@ -31,17 +31,19 @@ Out[6]: ['59', '71']
 
 In [7]: s.update()                                                                                                     
 
-In [8]: s.waitmessage('grid')   
+In [8]: s.waitmessage('html')   
 <pre>
 11161 - Alzaia Nav. Pavese, 60
-+---------+------------------------------+----------+
-|   Linea | Descrizione                  | Attesa   |
-+=========+==============================+==========+
-|      59 | P.ta Lodovica - Famagosta M2 | no serv. |
-+---------+------------------------------+----------+
-|      71 | Famagosta M2 - Romolo M2     | 16 min   |
-+---------+------------------------------+----------+
- - 2020-02-10 23:11:21.078515 -
+<table>
+<thead>
+<tr><th style="text-align: right;">  Linea</th><th>Descrizione                 </th><th>Attesa  </th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: right;">     59</td><td>P.ta Lodovica - Famagosta M2</td><td>no serv.</td></tr>
+<tr><td style="text-align: right;">     71</td><td>Famagosta M2 - Romolo M2    </td><td>14 min  </td></tr>
+</tbody>
+</table>
+ - 2020-02-10 23:16:08.537093 - 
 </pre>
 
 In [9]: from atm import Line
