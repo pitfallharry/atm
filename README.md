@@ -53,7 +53,30 @@ In [10]: l = Line(73)
 In [11]: l.description()<br>
 Linea Bus 73 Aeroporto Linate - Duomo M1 M3
 
-In [12]: l.path('html')<br>
+In [12]: l.stops()                                                                                                       
+Out[12]: 
+['12926',
+ '12921',
+ '12854',
+ '12852',
+ '18119',
+ '12647',
+ '12405',
+ '12400',
+ '12391',
+ '12127',
+ '12125',
+ '12111',
+ '12098',
+ '12095',
+ '11820',
+ '17854',
+ '18155',
+ '17769',
+ '17855',
+ '16929']
+ 
+In [13]: l.path('html')<br>
 <pre>
 Bus 73 Aeroporto Linate - Duomo M1 M3
 <table>
