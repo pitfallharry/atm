@@ -103,6 +103,17 @@ class Line(object):
 			table.append([stop['Code'],stop['Description']])
 		print(colored(title,'red'))
 		print(tabulate(table,headers,tablefmt=table_format))
+	def reverse(self):
+		self.direction = (self.direction + 1) % 2
+		url = 'https://giromilano.atm.it/TPPortalBackEnd/tpl/journeyPatterns/' + str(self.number) + '%7C' + str(self.direction)
+		try:
+			r = urllib.request.urlopen(url).read().decode('utf-8')
+		except urllib.error.HTTPError:
+			print('La fermata {} non esiste.'.format(number))
+		else:
+			data = json.loads(r)
+		self.data = data
+
 
 def distance(s1,s2):
 	from math import sin, cos, sqrt, atan2, radians
