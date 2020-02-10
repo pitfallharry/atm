@@ -94,7 +94,6 @@ class Line(object):
 		table = []
 		title = self.data['Line']['LineDescription']
 		headers =['Fermata','Descrizione']
-		self.description()
 		for stop in self.data['Stops']:
 			table.append([stop['Code'],stop['Description']])
 		print(colored(title,'red'))
