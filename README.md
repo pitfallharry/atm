@@ -23,14 +23,35 @@ In [4]: s.waitmessage('grid')<br>
  - 2020-02-10 23:04:32.617598 - 
 </pre>
 
-In [5]: from atm import Line
+In [5]: s.position()                                                                                                   
+Out[5]: (9.176054951924698, 45.44497959284472)
 
-In [6]: l = Line(73)
+In [6]: s.lines()                                                                                                      
+Out[6]: ['59', '71']
 
-In [7]: l.description()<br>
+In [7]: s.update()                                                                                                     
+
+In [8]: s.waitmessage('grid')   
+<pre>
+11161 - Alzaia Nav. Pavese, 60
++---------+------------------------------+----------+
+|   Linea | Descrizione                  | Attesa   |
++=========+==============================+==========+
+|      59 | P.ta Lodovica - Famagosta M2 | no serv. |
++---------+------------------------------+----------+
+|      71 | Famagosta M2 - Romolo M2     | 16 min   |
++---------+------------------------------+----------+
+ - 2020-02-10 23:11:21.078515 -
+</pre>
+
+In [9]: from atm import Line
+
+In [10]: l = Line(73)
+
+In [11]: l.description()<br>
 Linea Bus 73 Aeroporto Linate - Duomo M1 M3
 
-In [8]: l.path('html')<br>
+In [12]: l.path('html')<br>
 <pre>
 Bus 73 Aeroporto Linate - Duomo M1 M3
 <table>
