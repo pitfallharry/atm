@@ -30,7 +30,7 @@ In [6]: l = Line(73)
 In [7]: l.description()<br>
 Linea Bus 73 Aeroporto Linate - Duomo M1 M3
 
-In [8]: l.path('grid')<br>
+In [8]: l.path('html')<br>
 <pre>
 Bus 73 Aeroporto Linate - Duomo M1 M3
 <table>
