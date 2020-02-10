@@ -88,6 +88,11 @@ class Line(object):
 		self.direction = direction
 	def description(self):
 		print('Linea {}\n-'.format(self.data['Line']['LineDescription']))
+	def stops(self):
+		a = []
+		for record in self.data['Stops']:
+			a.append(record['Code'])
+		return(a)
 	def path(self,table_format='grid'):
 		from tabulate import tabulate
 		from termcolor import colored
@@ -99,14 +104,14 @@ class Line(object):
 		print(colored(title,'red'))
 		print(tabulate(table,headers,tablefmt=table_format))
 
-def distance(p1,p2):
+def distance(s1,s2):
 	from math import sin, cos, sqrt, atan2, radians
 	# approximate radius of earth in km
 	R = 6373.0
-	lat1 = radians(p1[0])
-	lon1 = radians(p1[1])
-	lat2 = radians(p2[0])
-	lon2 = radians(p2[1])
+	lat1 = radians(s1.position()[0])
+	lon1 = radians(s1.position()[1])
+	lat2 = radians(s2.position()[0])
+	lon2 = radians(s2.position()[1])
 	dlon = lon2 - lon1
 	dlat = lat2 - lat1
 	a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
