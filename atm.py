@@ -7,7 +7,7 @@ except ModuleNotFoundError:
 
 class Stop(object):
 	"""
-	Stop oggetto fermata
+	Classe fermata
 	"""
 	def __init__(self, number=None, language='it'):
 		"""
@@ -31,6 +31,13 @@ class Stop(object):
 		self.time = datetime.now()
 	def description(self):
 		print('Fermata {} ({}) | {}\n-'.format(self.data['CustomerCode'],self.data['Description'],self.time))
+	def lines(self):
+		a = []
+		for record in self.data['Lines']:
+			a.append(record['Line']['LineCode'])
+		return(a)
+	def position(self):
+		return (self.data['Location']['X'],self.data['Location']['Y'])
 	def update(self):
 		url = 'https://giromilano.atm.it/TPPortalBackEnd/geodata/pois/stops/' + str(self.number) + '?lang=' + self.language
 		try:
@@ -41,16 +48,24 @@ class Stop(object):
 			data = json.loads(r)
 			self.data = data
 			self.time = datetime.now()
-	def waitmessage(self):
-		a = []
+	def waitmessage(self,table_format='grid'):
+		from tabulate import tabulate
+		from termcolor import colored
+		table = []
+		title = self.data["CustomerCode"] + ' - ' + self.data["Description"]
+		headers =['Line','Description','Wait']
 		for record in self.data['Lines']:
-			print('La linea {} ({}) arriverà tra {}'.format(record['Line']['LineCode'],record['Line']['LineDescription'],record['WaitMessage']))
-			#a.append((record['Line']['LineCode'],record['Line']['LineDescription'],record['WaitMessage']))
+			#print('La linea {} ({}) arriverà tra {}'.format(record['Line']['LineCode'],record['Line']['LineDescription'],record['WaitMessage']))
+			table.append((record['Line']['LineCode'],record['Line']['LineDescription'],record['WaitMessage']))
+			print(colored(title,'red'))
+			print(tabulate(table,headers,tablefmt=table_format))
+			print(' - {} - '.format(self.time))
 		#return(a)
+
 
 class Line(object):
 	"""
-	Stop oggetto linea
+	Classe linea
 	"""
 	def __init__(self, number=None, direction=0):
 		"""
@@ -73,21 +88,32 @@ class Line(object):
 		self.direction = direction
 	def description(self):
 		print('Linea {}\n-'.format(self.data['Line']['LineDescription']))
-		#a.append((record['Line']['LineCode'],record['Line']['LineDescription'],record['WaitMessage']))
-		#return(a)
 	def path(self):
 		self.description()
 		for stop in self.data['Stops']:
 			print('{} ({})'.format(stop['Code'],stop['Description']))
-		#a.append((record['Line']['LineCode'],record['Line']['LineDescription'],record['WaitMessage']))
-		#return(a)
+
+def distance(p1,p2):
+	from math import sin, cos, sqrt, atan2, radians
+	# approximate radius of earth in km
+	R = 6373.0
+	lat1 = radians(p1[0])
+	lon1 = radians(p1[1])
+	lat2 = radians(p2[0])
+	lon2 = radians(p2[1])
+	dlon = lon2 - lon1
+	dlat = lat2 - lat1
+	a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+	c = 2 * atan2(sqrt(a), sqrt(1 - a))
+	d = R * c
+	return d
 
 #s = Stop(12125,'it')
-#print(s.data)
-#print(s.waitmessage())
+#s.data
+#s.waitmessage('grid')
 #s.description()
 #s.waitmessage()
 
 #l = Line(73,0)
-#print(l.data)
+#l.data
 #l.path()
