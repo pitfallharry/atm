@@ -52,14 +52,14 @@ class Stop(object):
 		from tabulate import tabulate
 		from termcolor import colored
 		table = []
-		title = self.data["CustomerCode"] + ' - ' + self.data["Description"]
-		headers =['Line','Description','Wait']
+		title = self.data['CustomerCode'] + ' - ' + self.data['Description']
+		headers =['Linea','Descrizione','Attesa']
 		for record in self.data['Lines']:
 			#print('La linea {} ({}) arriverà tra {}'.format(record['Line']['LineCode'],record['Line']['LineDescription'],record['WaitMessage']))
 			table.append((record['Line']['LineCode'],record['Line']['LineDescription'],record['WaitMessage']))
-			print(colored(title,'red'))
-			print(tabulate(table,headers,tablefmt=table_format))
-			print(' - {} - '.format(self.time))
+		print(colored(title,'red'))
+		print(tabulate(table,headers,tablefmt=table_format))
+		print(' - {} - '.format(self.time))
 		#return(a)
 
 
@@ -88,10 +88,17 @@ class Line(object):
 		self.direction = direction
 	def description(self):
 		print('Linea {}\n-'.format(self.data['Line']['LineDescription']))
-	def path(self):
+	def path(self,table_format='grid'):
+		from tabulate import tabulate
+		from termcolor import colored
+		table = []
+		title = self.data['Line']['LineDescription']
+		headers =['Fermata','Descrizione']
 		self.description()
 		for stop in self.data['Stops']:
-			print('{} ({})'.format(stop['Code'],stop['Description']))
+			table.append([stop['Code'],stop['Description']])
+		print(colored(title,'red'))
+		print(tabulate(table,headers,tablefmt=table_format))
 
 def distance(p1,p2):
 	from math import sin, cos, sqrt, atan2, radians
