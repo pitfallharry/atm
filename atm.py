@@ -24,8 +24,7 @@ class Stop(object):
 		except urllib.error.HTTPError:
 			print('La fermata {} non esiste.'.format(number))
 		else:
-			data = json.loads(r)
-			self.data = data
+			self.data = json.loads(r)
 		self.number = number
 		self.language = language
 		self.time = datetime.now()
@@ -45,8 +44,7 @@ class Stop(object):
 		except urllib.error.HTTPError:
 			print('Non riesco ad aggionrare i dati della fermata {}.'.format(self.number))
 		else:
-			data = json.loads(r)
-			self.data = data
+			self.data = json.loads(r)
 			self.time = datetime.now()
 	def waitmessage(self,table_format='grid'):
 		from tabulate import tabulate
@@ -82,9 +80,8 @@ class Line(object):
 		except urllib.error.HTTPError:
 			print('La fermata {} non esiste.'.format(number))
 		else:
-			data = json.loads(r)
+			self.data = json.loads(r)
 		self.number = number
-		self.data = data
 		self.direction = direction
 	def description(self):
 		print('Linea {}\n-'.format(self.data['Line']['LineDescription']))
@@ -111,9 +108,7 @@ class Line(object):
 		except urllib.error.HTTPError:
 			print('La fermata {} non esiste.'.format(number))
 		else:
-			data = json.loads(r)
-		self.data = data
-
+			self.data = json.loads(r)
 
 def distance(s1,s2):
 	from math import sin, cos, sqrt, atan2, radians
