@@ -11,14 +11,14 @@ class Stop(object):
 	"""
 	def __init__(self, code=None, language='it'):
 		"""
-		Questo è il costruttore della classe.
+		Questo è il costruttore della classe Fermata (Stop)
 		"""
-		# controllo che code sia davvero una stringa (es. '12400', 'N27', ...)
+		# controllo che code sia davvero una stringa
 		if not isinstance(code, str):
 			raise ValueError("Inserire una stringa per indicare la fermata!")
 		if not isinstance(language, str):
 			raise ValueError("Inserire una stringa che indichi la lingua!")
-		url = 'https://giromilano.atm.it/TPPortalBackEnd/geodata/pois/stops/' + code + '?lang=' + language
+		url = 'https://giromilano.atm.it/TPPortalBackEnd/geodata/pois/stops/' + str(code) + '?lang=' + language
 		try:
 			r = urllib.request.urlopen(url).read().decode('utf-8')
 		except urllib.error.HTTPError:
@@ -38,7 +38,7 @@ class Stop(object):
 	def position(self):
 		return (self.data['Location']['X'],self.data['Location']['Y'])
 	def update(self):
-		url = 'https://giromilano.atm.it/TPPortalBackEnd/geodata/pois/stops/' + self.code + '?lang=' + self.language
+		url = 'https://giromilano.atm.it/TPPortalBackEnd/geodata/pois/stops/' + str(self.code) + '?lang=' + self.language
 		try:
 			r = urllib.request.urlopen(url).read().decode('utf-8')
 		except urllib.error.HTTPError:
@@ -58,23 +58,34 @@ class Stop(object):
 		print(colored(title,'red'))
 		print(tabulate(table,headers,tablefmt=table_format))
 		print(' - {} - '.format(self.time))
-		#return(a)
-
+	def waitmessage_plus(self,direction='0',table_format='html'):
+		from tabulate import tabulate
+		from termcolor import colored
+		table = []
+		title = self.data['CustomerCode'] + ' - ' + self.data['Description']
+		headers =['Linea','Descrizione','Attesa']
+		for record in self.data['Lines']:
+			link='<a href="?l=' + record['Line']['LineCode'] + '&d=' + direction + '">' + record['Line']['LineCode'] + '</a>'
+			table.append((link,record['Line']['LineDescription'],record['WaitMessage']))
+		#print(colored(title,'red'))
+		print(title)
+		print(tabulate(table,headers,tablefmt=table_format))
+		#print(' - {} - '.format(self.time))
 
 class Line(object):
 	"""
 	Classe linea
 	"""
-	def __init__(self, code=None, direction=0):
+	def __init__(self, code=None, direction='0'):
 		"""
-		Questo è il costruttore della classe.
+		Questo è il costruttore della classe Linea (Line)
 		"""
-		# controllo che code sia davvero un numero
+		# controllo che code sia davvero una stringa
 		if not isinstance(code, str):
-			raise ValueError("Inserire un numero per indicare la fermata!")
-		if direction not in (0,1):
-			raise ValueError("Indicare la direzione con 0 o 1!")
-		url = 'https://giromilano.atm.it/TPPortalBackEnd/tpl/journeyPatterns/' + code + '%7C' + str(direction)
+			raise ValueError("Inserire una stringa per indicare la fermata!")
+		if direction not in ('0','1'):
+			raise ValueError("Indicare la direzione con '0' o '1'!")
+		url = 'https://giromilano.atm.it/TPPortalBackEnd/tpl/journeyPatterns/' + code + '%7C' + direction
 		try:
 			r = urllib.request.urlopen(url).read().decode('utf-8')
 		except urllib.error.HTTPError:
@@ -100,9 +111,22 @@ class Line(object):
 			table.append([stop['Code'],stop['Description']])
 		print(colored(title,'red'))
 		print(tabulate(table,headers,tablefmt=table_format))
+	def path_plus(self,direction='0',table_format='html'):
+		from tabulate import tabulate
+		from termcolor import colored
+		table = []
+		title = self.data['Line']['LineDescription']
+		link_description='<a href="?l=' + self.code + '&d=' + direction + '">Descrizione</a>'
+		headers =['Fermata',link_description]
+		for stop in self.data['Stops']:
+			link='<a href=\"?s=' + stop['Code'] + '\">' + stop['Code'] + '</a>'
+			table.append([link,stop['Description']])
+		#print(colored(title,'red'))
+		print(title)
+		print(tabulate(table,headers,tablefmt=table_format))
 	def reverse(self):
-		self.direction = (self.direction + 1) % 2
-		url = 'https://giromilano.atm.it/TPPortalBackEnd/tpl/journeyPatterns/' + self.code + '%7C' + str(self.direction)
+		self.direction = str(int((self.direction + 1) % 2))
+		url = 'https://giromilano.atm.it/TPPortalBackEnd/tpl/journeyPatterns/' + str(self.code) + '%7C' + self.direction
 		try:
 			r = urllib.request.urlopen(url).read().decode('utf-8')
 		except urllib.error.HTTPError:
