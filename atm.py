@@ -9,23 +9,23 @@ class Stop(object):
 	"""
 	Classe fermata
 	"""
-	def __init__(self, number=None, language='it'):
+	def __init__(self, code=None, language='it'):
 		"""
 		Questo è il costruttore della classe.
 		"""
-		# controllo che number sia davvero un numero
-		if not isinstance(number, int):
-			raise ValueError("Inserire un numero per indicare la fermata!")
+		# controllo che code sia davvero una stringa (es. '12400', 'N27', ...)
+		if not isinstance(code, str):
+			raise ValueError("Inserire una stringa per indicare la fermata!")
 		if not isinstance(language, str):
 			raise ValueError("Inserire una stringa che indichi la lingua!")
-		url = 'https://giromilano.atm.it/TPPortalBackEnd/geodata/pois/stops/' + str(number) + '?lang=' + language
+		url = 'https://giromilano.atm.it/TPPortalBackEnd/geodata/pois/stops/' + code + '?lang=' + language
 		try:
 			r = urllib.request.urlopen(url).read().decode('utf-8')
 		except urllib.error.HTTPError:
-			print('La fermata {} non esiste.'.format(number))
+			print('La fermata {} non esiste.'.format(code))
 		else:
 			self.data = json.loads(r)
-		self.number = number
+		self.code = code
 		self.language = language
 		self.time = datetime.now()
 	def description(self):
@@ -38,11 +38,11 @@ class Stop(object):
 	def position(self):
 		return (self.data['Location']['X'],self.data['Location']['Y'])
 	def update(self):
-		url = 'https://giromilano.atm.it/TPPortalBackEnd/geodata/pois/stops/' + str(self.number) + '?lang=' + self.language
+		url = 'https://giromilano.atm.it/TPPortalBackEnd/geodata/pois/stops/' + self.code + '?lang=' + self.language
 		try:
 			r = urllib.request.urlopen(url).read().decode('utf-8')
 		except urllib.error.HTTPError:
-			print('Non riesco ad aggionrare i dati della fermata {}.'.format(self.number))
+			print('Non riesco ad aggionrare i dati della fermata {}.'.format(self.code))
 		else:
 			self.data = json.loads(r)
 			self.time = datetime.now()
@@ -58,29 +58,30 @@ class Stop(object):
 		print(colored(title,'red'))
 		print(tabulate(table,headers,tablefmt=table_format))
 		print(' - {} - '.format(self.time))
+		#return(a)
 
 
 class Line(object):
 	"""
 	Classe linea
 	"""
-	def __init__(self, number=None, direction=0):
+	def __init__(self, code=None, direction=0):
 		"""
 		Questo è il costruttore della classe.
 		"""
-		# controllo che number sia davvero un numero
-		if not isinstance(number, int):
+		# controllo che code sia davvero un numero
+		if not isinstance(code, str):
 			raise ValueError("Inserire un numero per indicare la fermata!")
 		if direction not in (0,1):
 			raise ValueError("Indicare la direzione con 0 o 1!")
-		url = 'https://giromilano.atm.it/TPPortalBackEnd/tpl/journeyPatterns/' + str(number) + '%7C' + str(direction)
+		url = 'https://giromilano.atm.it/TPPortalBackEnd/tpl/journeyPatterns/' + code + '%7C' + str(direction)
 		try:
 			r = urllib.request.urlopen(url).read().decode('utf-8')
 		except urllib.error.HTTPError:
-			print('La fermata {} non esiste.'.format(number))
+			print('La fermata {} non esiste.'.format(code))
 		else:
 			self.data = json.loads(r)
-		self.number = number
+		self.code = code
 		self.direction = direction
 	def description(self):
 		print('Linea {}\n-'.format(self.data['Line']['LineDescription']))
@@ -101,11 +102,11 @@ class Line(object):
 		print(tabulate(table,headers,tablefmt=table_format))
 	def reverse(self):
 		self.direction = (self.direction + 1) % 2
-		url = 'https://giromilano.atm.it/TPPortalBackEnd/tpl/journeyPatterns/' + str(self.number) + '%7C' + str(self.direction)
+		url = 'https://giromilano.atm.it/TPPortalBackEnd/tpl/journeyPatterns/' + self.code + '%7C' + str(self.direction)
 		try:
 			r = urllib.request.urlopen(url).read().decode('utf-8')
 		except urllib.error.HTTPError:
-			print('La fermata {} non esiste.'.format(number))
+			print('La fermata {} non esiste.'.format(code))
 		else:
 			self.data = json.loads(r)
 
