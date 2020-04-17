@@ -58,7 +58,6 @@ class Stop(object):
 		print(colored(title,'red'))
 		print(tabulate(table,headers,tablefmt=table_format))
 		print(' - {} - '.format(self.time))
-		#return(a)
 
 
 class Line(object):
