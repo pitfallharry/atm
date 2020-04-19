@@ -13,9 +13,9 @@ class Stop(object):
 		"""
 		Questo è il costruttore della classe Fermata (Stop)
 		"""
-		# controllo che code sia davvero una stringa
+		# controllo che code sia davvero una stringa ed eventualmente lo converto
 		if not isinstance(code, str):
-			raise ValueError("Inserire una stringa per indicare la fermata!")
+			code = str(code)
 		if not isinstance(language, str):
 			raise ValueError("Inserire una stringa che indichi la lingua!")
 		url = 'https://giromilano.atm.it/TPPortalBackEnd/geodata/pois/stops/' + str(code) + '?lang=' + language
@@ -80,9 +80,9 @@ class Line(object):
 		"""
 		Questo è il costruttore della classe Linea (Line)
 		"""
-		# controllo che code sia davvero una stringa
+		# controllo che code sia davvero una stringa ed eventualmente lo converto
 		if not isinstance(code, str):
-			raise ValueError("Inserire una stringa per indicare la fermata!")
+			code = str(code)
 		if direction not in ('0','1'):
 			raise ValueError("Indicare la direzione con '0' o '1'!")
 		url = 'https://giromilano.atm.it/TPPortalBackEnd/tpl/journeyPatterns/' + code + '%7C' + direction
