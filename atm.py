@@ -134,7 +134,7 @@ class Line(object):
 		print(title)
 		print(tabulate(table,headers,tablefmt=table_format))
 	def reverse(self):
-		self.direction = str(int((self.direction + 1) % 2))
+		self.direction = str((int(self.direction) + 1) % 2))
 		url = 'https://giromilano.atm.it/TPPortalBackEnd/tpl/journeyPatterns/' + str(self.code) + '%7C' + self.direction
 		try:
 			r = urllib.request.urlopen(url).read().decode('utf-8')
