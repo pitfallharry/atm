@@ -2,12 +2,13 @@
 ## ATM (Azienda Trasporti Milanesi) Python Library
 This Library is intended for educational purpose.
 
-- Free to use
-- It doesn't need API Key
-- Daily useful
-- Functionality tested in real time
+- Free to use.
+- No API Key needed.
+- Daily useful.
+- Functionality tested in real time.
 
 Initial Version - 0.1
+---------------------
 
 In [1]: from atm import Stop
 
