@@ -67,10 +67,8 @@ class Stop(object):
 		for record in self.data['Lines']:
 			link='<a href="?l=' + record['Line']['LineCode'] + '&d=' + direction + '">' + record['Line']['LineCode'] + '</a>'
 			table.append((link,record['Line']['LineDescription'],record['WaitMessage']))
-		#print(colored(title,'red'))
 		print(title)
 		print(tabulate(table,headers,tablefmt=table_format))
-		#print(' - {} - '.format(self.time))
 
 class Line(object):
 	"""
@@ -121,7 +119,6 @@ class Line(object):
 		for stop in self.data['Stops']:
 			link='<a href=\"?s=' + stop['Code'] + '\">' + stop['Code'] + '</a>'
 			table.append([link,stop['Description']])
-		#print(colored(title,'red'))
 		print(title)
 		print(tabulate(table,headers,tablefmt=table_format))
 	def reverse(self):
@@ -148,13 +145,3 @@ def distance(s1,s2):
 	c = 2 * atan2(sqrt(a), sqrt(1 - a))
 	d = R * c
 	return d
-
-#s = Stop(12125,'it')
-#s.data
-#s.waitmessage('grid')
-#s.description()
-#s.waitmessage()
-
-#l = Line(73,0)
-#l.data
-#l.path()
