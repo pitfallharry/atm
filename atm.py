@@ -36,7 +36,17 @@ class Stop(object):
 			a.append(record['Line']['LineCode'])
 		return(a)
 	def position(self):
-		return (self.data['Location']['X'],self.data['Location']['Y'])
+		return (self.data['Location']['Y'],self.data['Location']['X'])
+	def showonmap(self):
+		try:
+			from ipyleaflet import Map, Marker
+		except ModuleNotFoundError:
+			print('Non riesco ad importare i moduli.')
+		poi = (self.data['Location']['Y'],self.data['Location']['X'])
+		m = Map(center=poi, zoom=15)
+		marker = Marker(location=poi, draggable=True)
+		m.add_layer(marker);
+		display(m)
 	def update(self):
 		url = 'https://giromilano.atm.it/TPPortalBackEnd/geodata/pois/stops/' + str(self.code) + '?lang=' + self.language
 		try:
