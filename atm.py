@@ -93,6 +93,8 @@ class Line(object):
 			code = str(code)
 		if direction not in ('0','1'):
 			raise ValueError("Indicare la direzione con '0' o '1'!")
+		if not isinstance(direction, str):
+			direction = str(direction)
 		url = 'https://giromilano.atm.it/TPPortalBackEnd/tpl/journeyPatterns/' + code + '%7C' + direction
 		try:
 			r = urllib.request.urlopen(url).read().decode('utf-8')
