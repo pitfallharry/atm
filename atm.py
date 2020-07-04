@@ -99,7 +99,7 @@ class Line(object):
 		try:
 			r = urllib.request.urlopen(url).read().decode('utf-8')
 		except urllib.error.HTTPError:
-			print('La fermata {} non esiste.'.format(code))
+			print('La linea {} non esiste.'.format(code))
 		else:
 			self.data = json.loads(r)
 		self.code = code
