@@ -63,6 +63,20 @@ class Stop:
         self.data = fetch_json(f"tpPortal/geodata/pois/{self.code}?lang={self.language}")
         self.time = datetime.now()
 
+    def showonmap(self):
+        try:
+            from ipyleaflet import Map, Marker
+            from IPython.display import display
+        except ModuleNotFoundError:
+            print("Modulo ipyleaflet non installato.")
+            return
+        
+        poi = self.position()
+        m = Map(center=poi, zoom=15)
+        marker = Marker(location=poi, draggable=False)
+        m.add_layer(marker)
+        display(m)
+
     def waitmessage(self, table_format='grid'):
         title = f"{self.ccode} - {self.data['Description']}"
         headers = ['Linea', 'Descrizione', 'Attesa']
@@ -71,6 +85,14 @@ class Stop:
         print(colored(title, 'red'))
         print(tabulate(table, headers, tablefmt=table_format))
         print(f' - {self.time} - ')
+
+    def waitmessage_plus(self, direction='0', table_format='html'):
+        title = f"{self.ccode} - {self.data['Description']}"
+        headers = ['Linea', 'Descrizione', 'Attesa']
+        table = [(f"<a href='?l={r['Line']['LineCode']}&d={direction}'>{r['Line']['LineCode']}</a>", 
+                  r['Line']['LineDescription'], r['WaitMessage']) for r in self.data.get('Lines', [])]
+        print(title)
+        print(tabulate(table, headers, tablefmt=table_format))
 
 
 class Line:
@@ -97,6 +119,13 @@ class Line:
         headers = ['Fermata', 'Descrizione']
         table = [[s['Code'], s['Description']] for s in self.data.get('Stops', [])]
         print(colored(self.data['Line']['LineDescription'], 'red'))
+        print(tabulate(table, headers, tablefmt=table_format))
+    
+    def path_plus(self, direction='0', table_format='html'):
+        headers = ['Fermata', "Descrizione"]
+        table = [[f"<a href='?s={s['Code']}'>{s['Code']}</a>", s['Description']] 
+                 for s in self.data.get('Stops', [])]
+        print(self.data['Line']['LineDescription'])
         print(tabulate(table, headers, tablefmt=table_format))
 
     def reverse(self):
